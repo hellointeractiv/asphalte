@@ -4,7 +4,9 @@ minimal route system class in php
 ## install
 
 $app = array();
+
 require('route.php');
+
 $route = new Route;
 
 ## use 
