@@ -24,7 +24,7 @@ if(	$route->post("ajax/:action")	){  ...  }
 
 ```
 
-## work for rest API
+## REST
 
 ```php
 if(	$route->put(":id")	){  ...  }
