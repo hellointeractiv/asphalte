@@ -6,9 +6,9 @@ minimal route system class in php
 
 $app = array();
 
-require('route.php');
+require('asphalte.php');
 
-$route = new Route;
+$route = new Asphalte;
 
 
 ## use 
