@@ -19,7 +19,7 @@
  *
  */
 
-class Route {
+class Asphalte {
 	
 	public function map($request) {
 		$array = explode("/", $request);
