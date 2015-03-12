@@ -1,10 +1,9 @@
-<? if ( ! defined('app')) die('Accès Interdit');
 /**
  * route - a simple PHP routing system
  *
  * @author      Xavier Egoneau
  * @copyright   2014 Xavier Egoneau
- * @version     2.0
+ * @version     3.0
  *
  * DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
  *
@@ -27,16 +26,16 @@ class Asphalte {
 	}
 	
 	public function done($type, $request_client){
-		global	$app;
+		
 			
-			$app['route'] = array();
+			$route = array();
+			$statut = true;
 			/*
 			| -------------
 			| init $size
 			| -------------
 			*/
 			$size = false;
-			$return = true;
 			/*
 			| -------------
 			| on va chercher la requette
@@ -46,7 +45,7 @@ class Asphalte {
 			$request = $_GET['request'];
 			
 			if(strtolower($_SERVER['REQUEST_METHOD']) != strtolower($type) ){
-					$return = false;
+					$statut = false;
 			}
 			
 			/*
@@ -88,7 +87,8 @@ class Asphalte {
 					| -------------
 					*/
 					if(sizeof($test_variable_dynamique) < 2 && $request_client_array[$i] != $requestArray[$i]){
-						$return=false;
+						$statut=false;
+						
 					}
 					
 					/*
@@ -97,14 +97,15 @@ class Asphalte {
 					| -------------
 					*/
 					if(sizeof($test_variable_dynamique) > 1){
-						$app['route'][$test_variable_dynamique[1]]=$requestArray[$i];
+						$route[$test_variable_dynamique[1]] = $requestArray[$i];
+						
 					}
 					
 				}
 					
 				
 			}else{
-				$return = false;
+				$return = (object) array('statut' => $statut,'route'=>$route);
 			}
 			
 			/*
@@ -112,33 +113,26 @@ class Asphalte {
 			| on envoie la réponse !
 			| -------------
 			*/
-			return $return;
+			return (object) array('statut' => $statut,'route'=>$route);
 		
 	}
 	
 	public function get($request_client){
-		global	$app;
 		$return = $this->done("get", $request_client);
 		return $return;
 	}
 	public function post($request_client){
-		global	$app;
 		$return = $this->done("post", $request_client);
 		return $return;
 	}
 	public function put($request_client){
-		global	$app;
 		$return = $this->done("put", $request_client);
 		return $return;
 	}
 	public function delete($request_client){
-		global	$app;
 		$return = $this->done("delete", $request_client);
 		return $return;
 	}
 	
 	
 }
-
-
-?>
