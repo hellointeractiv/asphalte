@@ -12,31 +12,26 @@ $route = new Asphalte;
 
 ```
 
-## principle
+
+
+## How to use 
 
 ```php
 
+// Exemple 
 $route->get("article/:id"); 
 // return 2 variables in array(object) statut and route 
 //route can be have many vars in array )
 
-//exemple 
-echo $route->get("article/:id")->route["id"];
-echo $route->get("article/:id")->statut;
+// For exemple  :
+if(	$route->get("article/:id")->statut	){	
+  echo " we view the article page id : ".$route->get("article/:id")->route["id"];
+}
 
-```
-
-## use 
-
-```php
+// Other exemples :
 if(	$route->get("")->statut	){	
   echo "ok we view the home page.";
 }
-
-if(	$route->get("article/:id")->statut	){	
-  echo " we view the article page id : ".$route->get("article/:id")->id;
-}
-
 
 if(	$route->get(":id")->statut	){  ...  }
 
