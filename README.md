@@ -4,16 +4,25 @@ minimal route system class in php
 
 ## install
 
-$app = array();
+```php
 
 require('asphalte.php');
 
-$route = new Asphalte;
+$route = new Asphalte;	
 
+```
 
 ## use 
 
 ```php
+if(	$route->get("")->statut	){	
+  echo $route->get("")->statut;
+}
+
+if(	$route->get("article/:id")->statut	){	
+  echo " we view the article id : ".$route->get("article/:id")->id;
+}
+
 if(	$route->get("")	){  ...  }
 
 if(	$route->get(":id")	){  ...  }
