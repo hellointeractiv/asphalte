@@ -2,7 +2,7 @@
 minimal route system class in php
 
 
-## install
+## Install
 
 ```php
 
