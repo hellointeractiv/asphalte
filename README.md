@@ -12,6 +12,18 @@ $route = new Asphalte;
 
 ```
 
+## Principe
+
+```php
+
+$route->get("article/:id"); // return 2 variables in array(object) statut and route ( route can be have many vars in array )
+
+//exemple 
+echo $route->get("article/:id")->route["id"];
+echo $route->get("article/:id")->statut;
+
+```
+
 ## use 
 
 ```php
