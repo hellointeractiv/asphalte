@@ -23,21 +23,20 @@ if(	$route->get("article/:id")->statut	){
   echo " we view the article page id : ".$route->get("article/:id")->id;
 }
 
-if(	$route->get("")	){  ...  }
 
-if(	$route->get(":id")	){  ...  }
+if(	$route->get(":id")->statut	){  ...  }
 
-if(	$route->get("user/:userid")	){  ...  }
+if(	$route->get("user/:userid")->statut	){  ...  }
 
-if(	$route->post("ajax/:action")	){  ...  }
+if(	$route->post("ajax/:action")->statut	){  ...  }
 
 ```
 
 ## REST
 
 ```php
-if(	$route->put(":id")	){  ...  }
+if(	$route->put(":id")->statut	){  ...  }
 
-if(	$route->delete(":id")	){  ...  }
+if(	$route->delete(":id")->statut	){  ...  }
 
 ```
