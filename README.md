@@ -33,11 +33,18 @@ if(	$route->get("")->statut	){
   echo "ok we view the home page.";
 }
 
+if($route->any(":pageurl")->statut){
+					
+		... 
+}
+
 if(	$route->get(":id")->statut	){  ...  }
 
 if(	$route->get("user/:userid")->statut	){  ...  }
 
 if(	$route->post("ajax/:action")->statut	){  ...  }
+
+if(	$route->any("ajax/:action")->statut	){  ...  } // for all
 
 ```
 
