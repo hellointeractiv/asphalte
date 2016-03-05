@@ -117,7 +117,7 @@ class Asphalte {
 				}
 					
 			}else{
-					$return["statut"] = false;
+				$return["statut"] = false;
 			}
 			
 			/*
@@ -125,7 +125,7 @@ class Asphalte {
 			| on envoie la réponse !
 			| -------------
 			*/
-			//print_r($return["request"]);
+			
 			return (object) $return;
 		
 	}
