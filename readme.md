@@ -4,6 +4,15 @@ minimal route system class in php Objet
 
 ## Install
 
+### Composer 
+```
+composer require hellointeractiv/asphalte
+```
+### or 
+```
+"hellointeractiv/asphalte": "dev-master"
+```
+
 #### Htaccess
 ```htaccess
 RewriteEngine on
