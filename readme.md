@@ -3,6 +3,7 @@ minimal route system class in php Objet
 
 
 ## Install
+
 #### Htaccess
 ```htaccess
 RewriteEngine on
@@ -25,7 +26,9 @@ $route = new Asphalte;
 ```php
 
 # Exemple 
+
 $route->get("article/:id"); 
+
 # return 3 variables in object(stdClass) statut request and dynamic vars
 #
 # object(stdClass)(3) {  
@@ -50,13 +53,16 @@ $route->get_map("test/:id");
 # }
 #route can be have many vars in array )
 
+
 # For exemple  :
+
 if(	$route->get("article/:category/:id")->statut	){	
   echo " we view the article page id : ".$route->get("article/:category/:id")->id;
   echo " we view the article category id : ".$route->get("article/:category/:id")->category;
 }
 
 # Other exemples :
+
 if(	$route->get("")->statut	){	
   echo "ok we view the home page.";
 }
