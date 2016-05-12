@@ -3,7 +3,13 @@ minimal route system class in php Objet
 
 
 ## Install
+#### htaccess
+```htaccess
+RewriteEngine on
+RewriteRule ^([a-zA-Z0-9\-\_\/\:]*)$ index.php?request=$1
+```
 
+#### PHP
 ```php
 
 require('asphalte.php');
