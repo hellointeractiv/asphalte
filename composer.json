@@ -1,5 +1,5 @@
 {
-    "name": "hellointeractiv/Asphalte",
+    "name": "hellointeractiv/asphalte",
     "type": "Routing Class object",
     "description": "Logging for PHP 5.3",
     "keywords": ["router", "routing","standalone"],
