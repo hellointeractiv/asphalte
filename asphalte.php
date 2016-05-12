@@ -1,3 +1,4 @@
+<?php 
 /**
  * route - a simple PHP routing system
  *
@@ -16,6 +17,9 @@
  *
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  *
+ * Doc :	
+ * https://github.com/hellointeractiv/asphalte/blob/master/README.md
+ *
  */
 
 class Asphalte {
@@ -33,10 +37,8 @@ class Asphalte {
 			| -------------
 			*/
 			$return = array();
-			$return["route"] = array();
 			$return["statut"] = false;
 			$return["request"] = array();
-			$return["size"] = false;
 			$size = false;
 			/*
 			| -------------
@@ -67,7 +69,6 @@ class Asphalte {
 				*/
 				if(sizeof($requestArray) == sizeof($request_client_array)  ){
 					$size = true;
-					$return["size"] = $size;
 				}else{
 					$return["statut"] = false;
 				}
@@ -81,7 +82,6 @@ class Asphalte {
 			
 						for ($i = 0; $i < sizeof($request_client_array); $i++) {
 							  
-							  //$return["statut"]=true;
 								/*
 								| -------------
 								| on test si c'est une variable dynamique
@@ -98,7 +98,7 @@ class Asphalte {
 									$return["statut"]=false;
 	
 									
-								}//else{$return["statut"]=true;}
+								}
 								
 								/*
 								| -------------
@@ -106,10 +106,9 @@ class Asphalte {
 								| -------------
 								*/
 								if(sizeof($test_variable_dynamique) > 1){
-									//$route = (object) array($test_variable_dynamique[1] => $requestArray[$i]);
+
 									$name = $test_variable_dynamique[1];
 									$return[$name] = $requestArray[$i];
-									//echo "id : ".$name. " content =".$requestArray[$i]." ";
 								}
 								
 							
@@ -117,7 +116,7 @@ class Asphalte {
 				}
 					
 			}else{
-				$return["statut"] = false;
+					$return["statut"] = false;
 			}
 			
 			/*
@@ -125,7 +124,7 @@ class Asphalte {
 			| on envoie la réponse !
 			| -------------
 			*/
-			
+
 			return (object) $return;
 		
 	}
