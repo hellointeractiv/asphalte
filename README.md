@@ -37,7 +37,17 @@ $route->get("article/:id");
 #  ["id"]=>string(4) "test"
 # }
 
+$scope["route"]->get_map("test/:id");
 
+#object(stdClass) (3) {
+#	  ["method"]=>string(3) "get"
+#	  ["request"]=>
+#	  array(2) {
+#	    [0]=>string(4) "test"
+#	    [1]=>string(4) "ouoi"
+#	  }
+#	  ["size"]=>int(2)
+# }
 #route can be have many vars in array )
 
 # For exemple  :
