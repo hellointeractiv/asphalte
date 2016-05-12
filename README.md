@@ -51,8 +51,9 @@ $route->get_map("test/:id");
 #route can be have many vars in array )
 
 # For exemple  :
-if(	$route->get("article/:id")->statut	){	
-  echo " we view the article page id : ".$route->get("article/:id")->route["id"];
+if(	$route->get("article/:category/:id")->statut	){	
+  echo " we view the article page id : ".$route->get("article/:category/:id")->id;
+  echo " we view the article category id : ".$route->get("article/:category/:id")->category;
 }
 
 # Other exemples :
