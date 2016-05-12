@@ -26,7 +26,18 @@ $route = new Asphalte;
 
 # Exemple 
 $route->get("article/:id"); 
-# return 2 variables in array(object) statut and route 
+# return 3 variables in object(stdClass) statut request and dynamic vars
+#
+# object(stdClass)(3) {  
+#  ["statut"]=>bool(true)
+#  ["request"]=>array(2) {
+#    				[0]=>string(7) "article"
+#    				[1]=>string(4) "test"
+#  			}
+#  ["id"]=>string(4) "test"
+# }
+
+
 #route can be have many vars in array )
 
 # For exemple  :
