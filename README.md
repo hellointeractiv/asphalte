@@ -37,7 +37,7 @@ $route->get("article/:id");
 #  ["id"]=>string(4) "test"
 # }
 
-$scope["route"]->get_map("test/:id");
+$route->get_map("test/:id");
 
 #object(stdClass) (3) {
 #	  ["method"]=>string(3) "get"
