@@ -46,7 +46,7 @@ class Asphalte {
 			| -------------
 			*/
 			
-			$request = $_GET['request'];
+			if(isset($_GET['request'])){	$request = $_GET['request'];	}else {$request = null;}
 			
 			if(strtolower($_SERVER['REQUEST_METHOD']) == strtolower($type) or $type=="any" ){
 				
