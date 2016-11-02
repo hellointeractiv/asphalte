@@ -48,7 +48,7 @@ $result = $route->get('/test', function ($route) {
 # result return 3 variables in object(stdClass) statut request size and dynamic vars if there is
 
 echo $result->statut;
-echo $result->statut;
+echo $result->sizetatut;
 var_dump($result->request);
 
 #or
@@ -68,6 +68,8 @@ if($result==""){
 $result = $route->get('/article/:id', function ($route) { 
     return $route;
 });
+
+echo $result->id;
 
 # return 3 variables in object(stdClass) statut request and dynamic vars
 #
