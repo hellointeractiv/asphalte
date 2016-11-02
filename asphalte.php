@@ -4,7 +4,7 @@
  *
  * @author      Xavier Egoneau
  * @copyright   2016 Xavier Egoneau
- * @version     2.0
+ * @version     3.0
  *
  * DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
  *
@@ -23,11 +23,7 @@
  */
 
 class Asphalte {
-	
-	//private static $route = [];
-
-	
-	
+		
 	
 	public function __construct() {
 	    
@@ -119,7 +115,7 @@ class Asphalte {
 								if(sizeof($test_variable_dynamique) > 1){
 
 									$name = $test_variable_dynamique[1];
-									$return[$name] = $requestArray[$i];
+									$route[$name] = $requestArray[$i];
 								}
 								
 							
@@ -136,13 +132,11 @@ class Asphalte {
 			| -------------
 			*/
             
-            $route=[
-               "statut"=>$statut,
-               "request"=>$request,
-               "size"=>$size 
-            ];
-            //save route for check all routes and check 404
-            $routeArray[] = $route;
+            $route["statut"] = $statut;
+            $route["request"] = $request;
+            $route["size"] = $size;
+            
+           
             
             //dd($route);
 			return (object) $route;
@@ -208,7 +202,6 @@ class Asphalte {
 		    
 		    $route_explode = explode("@", $chemin);
 		    if(sizeof($route_explode)>1){
-		        //$base_controler = new base_controler();
 		        $target_controler = new $route_explode[0]();
 		        $target_fnctn = $route_explode[1];
 		        
@@ -217,7 +210,6 @@ class Asphalte {
 		             $target_controler->$target_fnctn();
 		             $result = ob_get_contents();
 		             ob_end_clean();
-		            //$user_control->$app["route"]["function"]();
 		        }
 		    }else{
 		        $result ="";
