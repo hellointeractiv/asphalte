@@ -23,12 +23,27 @@
  */
 
 class Asphalte {
-		
+	
+	private static $routeArray = [];	
 	
 	public function __construct() {
 	    
 	    if(isset($_SERVER["REQUEST_URI"])){	$request = $_SERVER["REQUEST_URI"];	}else {$request = null;}
 	    
+	}
+	
+	public function check_404(callable $fonction) {
+	    $result = false;
+	    foreach ($this::$routeArray as $route) {
+
+	        if ($route["statut"]) {
+	            $result = true;
+	        }
+	    }
+
+	    if(!$result){
+	    return $fonction();
+	    }
 	}
 	
 	public function map($request) {
@@ -137,7 +152,7 @@ class Asphalte {
             $route["size"] = $size;
             
            
-            
+            $this::$routeArray[] = $route;
             //dd($route);
 			return (object) $route;
 	    
@@ -174,26 +189,24 @@ class Asphalte {
 	
 	public function get($request_client, callable $fonction){
 		$route = $this->run("get", $request_client);
-		if($route->statut){
-		    return $fonction($route);
-		}
+		if($route->statut){echo $fonction($route);}
 	}
 	public function post($request_client, callable $fonction){
 		$route = $this->run("post", $request_client);
-		if($route->statut){return $fonction($route);}
+		if($route->statut){echo $fonction($route);}
 	}
 	public function any($request_client, callable $fonction){
 		$route = $this->run("any", $request_client);
-		if($route->statut){return $fonction($route);}
+		if($route->statut){echo $fonction($route);}
 		
 	}
 	public function put($request_client, callable $fonction){
 		$route = $this->run("put", $request_client);
-		if($route->statut){return $fonction($route);}
+		if($route->statut){echo $fonction($route);}
 	}
 	public function delete($request_client, callable $fonction){
 		$route = $this->run("delete", $request_client);
-		if($route->statut){return $fonction($route);}
+		if($route->statut){echo $fonction($route);}
 	}
 	
 	public function match($type, $request_client, $chemin){
@@ -216,7 +229,7 @@ class Asphalte {
 		    }
 		    
 		    
-		    return $result;
+		    echo $result;
 		}
 	}
 	
