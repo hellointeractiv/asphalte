@@ -1,10 +1,10 @@
 <?php 
 /**
- * route - a simple PHP routing system
+ * Asphalte - Simple PHP routing system
  *
  * @author      Xavier Egoneau
  * @copyright   2016 Xavier Egoneau
- * @version     2.0
+ * @version     3.0
  *
  * DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
  *
@@ -24,33 +24,44 @@
 
 class Asphalte {
 	
+	//private static $route = [];
+
+	
+	
+	
+	public function __construct() {
+	    
+	    if(isset($_SERVER["REQUEST_URI"])){	$request = $_SERVER["REQUEST_URI"];	}else {$request = null;}
+	    
+	}
+	
 	public function map($request) {
 		$array = explode("/", $request);
 		return $array;
 	}
-	
-	public function done($type, $request_client){
-			
-			/*
-			| -------------
-			| init vars
-			| -------------
-			*/
-			$return = array();
-			$return["statut"] = false;
-			$return["request"] = array();
-			$size = false;
-			/*
+	public function run($type, $request_client) {
+	    
+    	    /*
+    	    | -------------
+    	    | init vars
+    	    | -------------
+    	    */
+    
+    	    $statut = false;
+    	    $request = array();
+    	    $size = false;
+	        $route = [];
+            /*
 			| -------------
 			| on va chercher la requette
 			| -------------
 			*/
 			
-			if(isset($_GET['request'])){	$request = $_GET['request'];	}else {$request = null;}
+			if(isset($_SERVER["REQUEST_URI"])){	$request_test = $_SERVER["REQUEST_URI"];	}else {$request_test = null;}
 			
 			if(strtolower($_SERVER['REQUEST_METHOD']) == strtolower($type) or $type=="any" ){
 				
-				$return["statut"] = true;
+				$statut = true;
 			
 			
 				/*
@@ -58,8 +69,8 @@ class Asphalte {
 				| on transforme es requetes en array
 				| -------------
 				*/
-				$requestArray = $this->map($request);
-				$return["request"] = $requestArray;
+				$requestArray = $this->map($request_test);
+				$request = $requestArray;
 				$request_client_array = $this->map($request_client);
 				
 				/*
@@ -70,7 +81,7 @@ class Asphalte {
 				if(sizeof($requestArray) == sizeof($request_client_array)  ){
 					$size = true;
 				}else{
-					$return["statut"] = false;
+					$statut = false;
 				}
 				
 				/*
@@ -95,7 +106,7 @@ class Asphalte {
 								| -------------
 								*/
 								if(sizeof($test_variable_dynamique) < 2 && $request_client_array[$i] != $requestArray[$i]){
-									$return["statut"]=false;
+									$statut=false;
 	
 									
 								}
@@ -116,7 +127,7 @@ class Asphalte {
 				}
 					
 			}else{
-					$return["statut"] = false;
+					$statut = false;
 			}
 			
 			/*
@@ -124,12 +135,23 @@ class Asphalte {
 			| on envoie la réponse !
 			| -------------
 			*/
-
-			return (object) $return;
-		
+            
+            $route=[
+               "statut"=>$statut,
+               "request"=>$request,
+               "size"=>$size 
+            ];
+            //save route for check all routes and check 404
+            $routeArray[] = $route;
+            
+            //dd($route);
+			return (object) $route;
+	    
+	        //return $fonction($route);
 	}
-
 	
+	
+
 	
 	public function get_map(){
 		
@@ -140,7 +162,7 @@ class Asphalte {
 			| -------------
 			*/
 			
-			$request = $_GET['request'];
+			$request = $_SERVER["REQUEST_URI"];
 			
 			$route["method"] = strtolower($_SERVER['REQUEST_METHOD']);
 			$route["request"] = $this->map($request);
@@ -156,27 +178,54 @@ class Asphalte {
 	
 
 	
-	public function get($request_client){
-		$return = $this->done("get", $request_client);
-		return $return;
+	public function get($request_client, callable $fonction){
+		$route = $this->run("get", $request_client);
+		if($route->statut){
+		    return $fonction($route);
+		}
+	}
+	public function post($request_client, callable $fonction){
+		$route = $this->run("post", $request_client);
+		if($route->statut){return $fonction($route);}
+	}
+	public function any($request_client, callable $fonction){
+		$route = $this->run("any", $request_client);
+		if($route->statut){return $fonction($route);}
 		
 	}
-	public function post($request_client){
-		$return = $this->done("post", $request_client);
-		return $return;
+	public function put($request_client, callable $fonction){
+		$route = $this->run("put", $request_client);
+		if($route->statut){return $fonction($route);}
 	}
-	public function any($request_client){
-		$return = $this->done("any", $request_client);
-		return $return;
-		
+	public function delete($request_client, callable $fonction){
+		$route = $this->run("delete", $request_client);
+		if($route->statut){return $fonction($route);}
 	}
-	public function put($request_client){
-		$return = $this->done("put", $request_client);
-		return $return;
-	}
-	public function delete($request_client){
-		$return = $this->done("delete", $request_client);
-		return $return;
+	
+	public function match($type, $request_client, $chemin){
+		$route = $this->run($type, $request_client);
+		if($route->statut){
+		    
+		    $route_explode = explode("@", $chemin);
+		    if(sizeof($route_explode)>1){
+		        //$base_controler = new base_controler();
+		        $target_controler = new $route_explode[0]();
+		        $target_fnctn = $route_explode[1];
+		        
+		        if( method_exists($target_controler,$target_fnctn) ){
+		             ob_start();
+		             $target_controler->$target_fnctn();
+		             $result = ob_get_contents();
+		             ob_end_clean();
+		            //$user_control->$app["route"]["function"]();
+		        }
+		    }else{
+		        $result ="";
+		    }
+		    
+		    
+		    return $result;
+		}
 	}
 	
 	
