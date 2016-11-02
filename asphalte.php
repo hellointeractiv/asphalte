@@ -189,24 +189,24 @@ class Asphalte {
 	
 	public function get($request_client, callable $fonction){
 		$route = $this->run("get", $request_client);
-		if($route->statut){echo $fonction($route);}
+		if($route->statut){return $fonction($route);}
 	}
 	public function post($request_client, callable $fonction){
 		$route = $this->run("post", $request_client);
-		if($route->statut){echo $fonction($route);}
+		if($route->statut){return $fonction($route);}
 	}
 	public function any($request_client, callable $fonction){
 		$route = $this->run("any", $request_client);
-		if($route->statut){echo $fonction($route);}
+		if($route->statut){return $fonction($route);}
 		
 	}
 	public function put($request_client, callable $fonction){
 		$route = $this->run("put", $request_client);
-		if($route->statut){echo $fonction($route);}
+		if($route->statut){return $fonction($route);}
 	}
 	public function delete($request_client, callable $fonction){
 		$route = $this->run("delete", $request_client);
-		if($route->statut){echo $fonction($route);}
+		if($route->statut){return $fonction($route);}
 	}
 	
 	public function match($type, $request_client, $chemin){
