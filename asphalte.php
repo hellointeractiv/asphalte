@@ -4,7 +4,7 @@
  *
  * @author      Xavier Egoneau
  * @copyright   2016 Xavier Egoneau
- * @version     3.0
+ * @version     2.0
  *
  * DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
  *
