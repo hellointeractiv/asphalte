@@ -10,19 +10,23 @@ composer require hellointeractiv/asphalte
 ```
 ### or 
 ```
-"hellointeractiv/asphalte": "dev-master"
+"hellointeractiv/asphalte": "2.0.0"
 ```
 
 #### Htaccess
 ```htaccess
-RewriteEngine on
-RewriteRule ^([a-zA-Z0-9\-\_\/\:]*)$ index.php?request=$1
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php [L]
+</IfModule>
 ```
 
 #### Php
 ```php
 
-require('asphalte.php');
+require('asphalte.php'); // or require_once("../app/vendor/autoload.php");
 
 $route = new Asphalte;	
 
@@ -35,8 +39,25 @@ $route = new Asphalte;
 ```php
 
 # Exemple 
+$result = "";
 
-$route->get("article/:id"); 
+$result = app("asphalte")->get('/test', function ($route) { 
+    return $route;
+});
+# return 3 variables in object(stdClass) statut request and dynamic vars
+echo $result->statut;
+echo $result->statut;
+var_dump($result->request);
+
+#or
+
+$result = app("asphalte")->match('GET','/test', "base_controler@test");
+
+if($result==""){
+    echo construct("base_controler@view404");
+}else{
+    echo $result;
+}
 
 # return 3 variables in object(stdClass) statut request and dynamic vars
 #
