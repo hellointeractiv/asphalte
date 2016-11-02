@@ -8,7 +8,7 @@ minimal route system class in php Objet
 ```
 composer require hellointeractiv/asphalte
 ```
-### or 
+### or bower 
 ```
 "hellointeractiv/asphalte": "2.0.0"
 ```
@@ -23,7 +23,7 @@ RewriteRule .* index.php [L]
 </IfModule>
 ```
 
-#### Php
+#### Install
 ```php
 
 require('asphalte.php'); // or require_once("../app/vendor/autoload.php");
@@ -41,32 +41,43 @@ $route = new Asphalte;
 # Exemple 
 $result = "";
 
-$result = app("asphalte")->get('/test', function ($route) { 
+$result = $route->get('/test', function ($route) { 
     return $route;
 });
-# return 3 variables in object(stdClass) statut request and dynamic vars
+
+# result return 3 variables in object(stdClass) statut request size and dynamic vars if there is
+
 echo $result->statut;
 echo $result->statut;
 var_dump($result->request);
 
 #or
 
-$result = app("asphalte")->match('GET','/test', "base_controler@test");
+$result = $route->match('GET','/test', "base_controler@test");
+
+# result lunch controler-> function if exeist
 
 if($result==""){
-    echo construct("base_controler@view404");
+    echo "404";
 }else{
     echo $result;
 }
 
+# variables dynamic
+
+$result = $route->get('/article/:id', function ($route) { 
+    return $route;
+});
+
 # return 3 variables in object(stdClass) statut request and dynamic vars
 #
 # object(stdClass)(3) {  
-#  ["statut"]=>bool(true)
+#  ["statut"]=>bool(true),
 #  ["request"]=>array(2) {
-#    				[0]=>string(7) "article"
-#    				[1]=>string(4) "test"
-#  			}
+# 	[0]=>string(7) "article"
+#    	[1]=>string(4) "test"
+#  },
+#  ["size"]=>2,	
 #  ["id"]=>string(4) "test"
 # }
 
@@ -84,39 +95,22 @@ $route->get_map("test/:id");
 #route can be have many vars in array )
 
 
-# For exemple  :
 
-if(	$route->get("article/:category/:id")->statut	){	
-  echo " we view the article page id : ".$route->get("article/:category/:id")->id;
-  echo " we view the article category id : ".$route->get("article/:category/:id")->category;
-}
 
-# Other exemples :
 
-if(	$route->get("")->statut	){	
-  echo "ok we view the home page.";
-}
 
-if($route->any(":pageurl")->statut){
-					
-		... 
-}
+if(	$route->get(...
 
-if(	$route->get(":id")->statut	){  ...  }
-
-if(	$route->get("user/:userid")->statut	){  ...  }
-
-if(	$route->post("ajax/:action")->statut	){  ...  }
-
-if(	$route->any("ajax/:action")->statut	){  ...  } // for all
+if(	$route->post(...
+if(	$route->any(...
 
 ```
 
 ## REST
 
 ```php
-if(	$route->put(":id")->statut	){  ...  }
+if(	$route->put(...
 
-if(	$route->delete(":id")->statut	){  ...  }
+if(	$route->delete(...
 
 ```
