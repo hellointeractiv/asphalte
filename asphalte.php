@@ -24,7 +24,8 @@
 
 class Asphalte {
 	
-	private static $routeArray = [];	
+	private static $routeArray = [];
+
 	
 	public function __construct() {
 	    
@@ -33,23 +34,42 @@ class Asphalte {
 	}
 	
 	public function check_404(callable $fonction) {
-	    $result = false;
+	    $result = true;
 	    foreach ($this::$routeArray as $route) {
 
 	        if ($route["statut"]) {
-	            $result = true;
+	            $result = false;
 	        }
 	    }
 
-	    if(!$result){
+	    if($result){
 	    return $fonction();
 	    }
 	}
+	
+	
+	// just check with filtre for attack
+	public function check($filtre, callable $fonction) {
+		    $map = $this->get_map();
+		    $result = false;
+
+		    if(strpos($_SERVER["REQUEST_URI"], $filtre) !== false) {
+		        $result=true;
+		    }
+	
+		    if($result){
+		    return $fonction();
+		    }
+	}
+	
+	
 	
 	public function map($request) {
 		$array = explode("/", $request);
 		return $array;
 	}
+	
+
 	public function run($type, $request_client) {
 	    
     	    /*
@@ -101,32 +121,36 @@ class Asphalte {
 				| -------------
 				*/
 				if($size == true){
-			
+
 						for ($i = 0; $i < sizeof($request_client_array); $i++) {
 							  
-								/*
-								| -------------
-								| on test si c'est une variable dynamique
-								| -------------
-								*/
+								$dyn = false;
+								// -------------
+								// on test si c'est une variable dynamique
+								// -------------
+								
 								$test_variable_dynamique = explode(":", $request_client_array[$i]);
 								
-								/*
-								| -------------
-								| si la variable n'est pas dynamique et que la comparaison avec la route du client n'est pas ok : 
-								| -------------
-								*/
+								if(sizeof($test_variable_dynamique)>1){
+    								$dyn = true;
+    								if($requestArray[$i]==""){
+    								    $statut=false;
+    								}
+								}
+								// -------------
+								// si la variable n'est pas dynamique et que la comparaison avec la route du client n'est pas ok : 
+								// -------------
 								if(sizeof($test_variable_dynamique) < 2 && $request_client_array[$i] != $requestArray[$i]){
 									$statut=false;
 	
 									
 								}
 								
-								/*
-								| -------------
-								| si la variable est dynamique on instancie GET avec le nom de variable donné par le client
-								| -------------
-								*/
+								
+								// -------------
+								// si la variable est dynamique on instancie GET avec le nom de variable donné par le client
+								// -------------
+								
 								if(sizeof($test_variable_dynamique) > 1){
 
 									$name = $test_variable_dynamique[1];
@@ -153,10 +177,8 @@ class Asphalte {
             
            
             $this::$routeArray[] = $route;
-            //dd($route);
 			return (object) $route;
 	    
-	        //return $fonction($route);
 	}
 	
 	
@@ -211,8 +233,10 @@ class Asphalte {
 	
 	public function match($type, $request_client, $chemin){
 		$route = $this->run($type, $request_client);
-		if($route->statut){
-		    
+		$result ="";
+		
+		if($route->statut===true){
+		      
 		    $route_explode = explode("@", $chemin);
 		    if(sizeof($route_explode)>1){
 		        $target_controler = new $route_explode[0]();
@@ -223,9 +247,9 @@ class Asphalte {
 		             $target_controler->$target_fnctn();
 		             $result = ob_get_contents();
 		             ob_end_clean();
+		        }else{
+		           die("Erreur. Méthode introuvable!");
 		        }
-		    }else{
-		        $result ="";
 		    }
 		    
 		    
