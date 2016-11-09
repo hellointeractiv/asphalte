@@ -25,12 +25,18 @@
 class Asphalte {
 	
 	private static $routeArray = [];
+	private static $view = "";
 
 	
 	public function __construct() {
 	    
 	    if(isset($_SERVER["REQUEST_URI"])){	$request = $_SERVER["REQUEST_URI"];	}else {$request = null;}
 	    
+	}
+	
+	
+	public function view($viewMaj) {
+	    $view = $viewMaj;
 	}
 	
 	public function check_404(callable $fonction) {
@@ -232,6 +238,7 @@ class Asphalte {
 	}
 	
 	public function match($type, $request_client, $chemin){
+		global $app;
 		$route = $this->run($type, $request_client);
 		$result ="";
 		
@@ -247,14 +254,26 @@ class Asphalte {
 		             $target_controler->$target_fnctn();
 		             $result = ob_get_contents();
 		             ob_end_clean();
+		        
 		        }else{
 		           die("Erreur. Méthode introuvable!");
 		        }
 		    }
 		    
 		    
-		    echo $result;
+		    $this::$view = $result;
+		    //die();
 		}
+	}
+	
+	
+	
+	public function dispatch(){
+	    
+	    if($this::$view!=""){
+	        return $this::$view;
+	    }
+	
 	}
 	
 	
