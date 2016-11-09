@@ -262,7 +262,7 @@ class Asphalte {
 		    
 		    
 		    $this::$view = $result;
-		    //die();
+		
 		}
 	}
 	
