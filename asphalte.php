@@ -251,7 +251,7 @@ class Asphalte {
 		        
 		        if( method_exists($target_controler,$target_fnctn) ){
 		             ob_start();
-		             $target_controler->$target_fnctn();
+		             $target_controler->$target_fnctn($route);
 		             $result = ob_get_contents();
 		             ob_end_clean();
 		        
