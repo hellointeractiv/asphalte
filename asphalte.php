@@ -245,7 +245,7 @@ class Asphalte {
 		if($route->statut===true){
 		      
 		    $route_explode = explode("@", $chemin);
-		    if(sizeof($route_explode)>1){
+		    if(sizeof($route_explode)>1 && class_exists($route_explode[0]) ){
 		        $target_controler = new $route_explode[0]();
 		        $target_fnctn = $route_explode[1];
 		        
