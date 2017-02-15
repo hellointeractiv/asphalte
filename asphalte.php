@@ -29,9 +29,9 @@ class Asphalte {
 
 	
 	public function __construct() {
+
 	    
 	    if(isset($_SERVER["REQUEST_URI"])){	$request = $_SERVER["REQUEST_URI"];	}else {$request = null;}
-	    
 	}
 	
 	
@@ -62,6 +62,7 @@ class Asphalte {
 		    if(strpos($_SERVER["REQUEST_URI"], $filtre) !== false) {
 		        $result=true;
 		    }
+		    
 	
 		    if($result){
 		    return $fonction();
@@ -71,6 +72,9 @@ class Asphalte {
 	
 	
 	public function map($request) {
+		if(isset($request[0]) && $request[0]=="/"){
+			$request = substr($request,1);
+		}
 		$array = explode("/", $request);
 		return $array;
 	}
@@ -238,10 +242,10 @@ class Asphalte {
 	}
 	
 	public function match($type, $request_client, $chemin){
-		global $app;
+
 		$route = $this->run($type, $request_client);
 		$result ="";
-		
+
 		if($route->statut===true){
 		      
 		    $route_explode = explode("@", $chemin);
