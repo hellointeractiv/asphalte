@@ -26,12 +26,18 @@ class Asphalte {
 	
 	private static $routeArray = [];
 	private static $view = "";
+	private static $request  = null;
 
 	
 	public function __construct() {
 
 	    
-	    if(isset($_SERVER["REQUEST_URI"])){	$request = $_SERVER["REQUEST_URI"];	}else {$request = null;}
+	    if(isset($_SERVER["REQUEST_URI"])){	
+	    	$request = $_SERVER["REQUEST_URI"];	
+	    	$testget = explode("?", $request);
+	    	
+	    	$this::$request = $testget[0];
+	    }else {$this::$request = null;}
 	}
 	
 	
@@ -59,7 +65,7 @@ class Asphalte {
 		    $map = $this->get_map();
 		    $result = false;
 
-		    if(strpos($_SERVER["REQUEST_URI"], $filtre) !== false) {
+		    if(strpos($this::$request, $filtre) !== false) {
 		        $result=true;
 		    }
 		    
@@ -98,7 +104,7 @@ class Asphalte {
 			| -------------
 			*/
 			
-			if(isset($_SERVER["REQUEST_URI"])){	$request_test = $_SERVER["REQUEST_URI"];	}else {$request_test = null;}
+			if(isset($this::$request)){	$request_test = $this::$request;	}else {$request_test = null;}
 			
 			if(strtolower($_SERVER['REQUEST_METHOD']) == strtolower($type) or $type=="any" ){
 				
@@ -203,7 +209,7 @@ class Asphalte {
 			| -------------
 			*/
 			
-			$request = $_SERVER["REQUEST_URI"];
+			$request = $this::$request;
 			
 			$route["method"] = strtolower($_SERVER['REQUEST_METHOD']);
 			$route["request"] = $this->map($request);
